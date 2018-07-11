@@ -33,7 +33,7 @@
 				<div class="centerRight">
 					<div class="centerItem">
 						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
+						<div class="payCard" @click="payCard('1')">刷卡</div>
 					</div>
 					<div class="centerItem">
 						<div class="likeImg">门禁1</div>
@@ -90,6 +90,16 @@
 						this.$http.get(url).then( (res) => {
 							console.log(res)
 						})
+					},
+					payCard (id) {
+						if (this.tabCurrent[0] == true) {
+							var postUrl = ''
+						} else {
+							var postUrl = ''
+						}
+						this.$http.post(postUrl,{login_name:this.login_name,id:id}).then( (res) => {
+							console.log();
+						})
 					}
 				},
 				created: function () {
@@ -97,6 +107,9 @@
 					if (this.login_name == '' || this.login_name == null) {
 						window.location.href = '../index.html'
 					}
+				},
+				mounted () {
+					this.getInfo()
 				}
 			})
 		</script>

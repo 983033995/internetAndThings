@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>物联网后台管理</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/admin.css">
+		<link href="../css/animate.css" rel="stylesheet" type="text/css" />
+		<link href="../css/iconfont.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script src="../js/vue-resource.js"></script>
+  </head>
+  <body>
+    <div id="homeContent" class="homeContent">
+      <div class="heardTop">
+        <div class="topLeft">物联网后台管理</div>
+        <div class="topRight">
+          <div class="topUser">
+            <div class="userName">{{ this.login_name }}</div>
+            <i class="icon iconfont icon-kongup"></i>
+            <div class="userOption">
+              <a @click="exitLogin()" v-if="login_name != ''">退出登陆</a>
+              <a href="../admin/index.html" v-if="login_name != '' && user_type == '1'">管理后台</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="centerContent">
+        <div class="centerLeft">
+          <div>用户列表</div>
+        </div>
+        <div class="centerRight">
+
+        </div>
+      </div>
+    </div>    
+    
+    <script>
+    
+    </script>
+  </body>
+</html>

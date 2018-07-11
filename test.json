@@ -1,0 +1,8 @@
+{
+	"success": 1,
+	"data": {
+		"login_name": "张三",
+		"user_type": 1
+	},
+	"msg": "请求成功"
+}

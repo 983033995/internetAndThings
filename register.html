@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<title>物联网用户注册</title>
+		<link href="css/login.css" rel="stylesheet" type="text/css" />
+		<link href="css/animate.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script src="js/vue-resource.js"></script>
+	</head>
+
+	<body>
+		<div class="login_box" id="loginContent">
+			<div class="login_l_img"><img src="img/login-img.png" /></div>
+			<div class="login" style="height: auto; margin-top: 20px;">
+				<div class="login_logo">
+					<a href="#"><img src="img/login_logo.png" /></a>
+				</div>
+				<div class="login_name">
+					<p>物联网系统</p>
+				</div>
+				<form method="post">
+					<input
+						name="username"
+						type="text"
+						v-model="userName"
+						placeholder="用户名"
+						@blur="user()"
+					>
+					<input
+						name="password"
+						type="password"
+						v-model="passWord"
+						placeholder="密码"
+						@blur="pass()"
+					/>
+					<input
+						name="password"
+						type="password"
+						v-model="passWordAgain"
+						placeholder="确认密码"
+						@blur="passAgin()"
+					/>
+					<input v-if="isOk == true" value="注册" style="width:100%;" type="button" @click="register()">
+					<input class="disabled" v-else value="注册" style="width:100%;" type="button">
+				</form>
+				<div class="register">已有账号？<a href="index.html">点击登陆</a></div>
+			</div>
+			<div class="copyright">万科科技公司 版权所有©2016-2018 技术支持电话：000-00000000</div>
+			<transition name="tip" mode="out-in">
+				<div class="myTip" v-show="tipBar" v-text="tipContent"></div>
+			</transition>			
+		</div>
+		
+		<script>
+			var vm = new Vue({
+				el: '#loginContent',
+				data: {
+					userName: '',
+					passWord: '',
+					passWordAgain: '',
+					tipBar: false,
+					tipContent: '',
+					proval: [false,false,false],
+					isOk: false
+				},
+				methods: {
+					//用户名规范验证
+					user () {
+						if (this.userName == '') {
+							this.proving('请输入用户名',0)
+						} else if (this.userName.length > 8 || this.userName.length < 2) {
+							this.proving('用户名长度为2-8位',0)
+						} else {
+							this.proval[0] = true
+							this.proval[0] == true && this.proval[1] == true && this.proval[2] == true ? this.isOk = true : this.isOk = false
+						}
+						
+					},
+					//密码验证规范
+					pass () {
+						if (this.passWord == '') {
+							this.proving('请输入密码',1)
+						} else if (this.passWord.length < 6) {
+							this.proving('密码长度不能小于6位',1)
+						} else if (this.passWordAgain != '' && this.passWord != this.passWordAgain) {
+							this.proving('两次输入的密码不一致',1)
+						} else {
+							this.proval[1] = true
+							this.proval[0] == true && this.proval[1] == true && this.proval[2] == true ? this.isOk = true : this.isOk = false
+						}
+					},
+					//再次输入密码验证
+					passAgin () {
+						if(this.passWord == this.passWordAgain) {
+							this.proval[2] = true
+							this.proval[0] == true && this.proval[1] == true && this.proval[2] == true ? this.isOk = true : this.isOk = false
+						} else {
+							this.proving('两次输入的密码不一致',2)
+						}
+					},
+					proving (tipWords,index) {
+						this.tipBar = true
+						this.tipContent = tipWords
+						this.proval[index] = false
+						setTimeout(() => {
+							this.tipBar = false
+						},3500)
+						this.isOk = false
+					},
+					register () {
+						if (this.proval[0] == true && this.proval[1] == true && this.proval[2] == true ) {
+							this.$http.post('/index.html',{
+								login_name: this.userName,
+								user_name: this.userName,
+								password: this.passWord
+							},{
+								emulateJSON:true
+							}).then( (res) => {
+								console.log(res)
+							})
+						} else {
+							
+						}
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

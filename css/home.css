@@ -1,0 +1,207 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+* {
+	font: 13px/1.5 '微软雅黑';
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	box-sizing: border-box;
+}
+
+body,
+html {
+	height: 100%;
+}
+
+a {
+	color: #27A9E3;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+img {
+	border: none;
+}
+.homeContent{
+	width: 100%;
+	height: 100%;
+}
+
+.heardTop{
+	width: 100%;
+	height: 60px;
+	background-color: #EEEEEE;
+}
+.heardTop .topLeft{
+	width: 160px;
+	line-height: 60px;
+	font-family: "楷体";
+	font-size: 26px;
+	float: left;
+	text-align: center;
+}
+.heardTop .topRight{
+	width: calc(100% - 160px);
+	width: -webkit-calc(100% - 160px);
+	width: -moz-calc(100% - 160px);
+	width: -ms-calc(100% - 160px);
+	height: 60px;
+	float: left;
+	border-bottom: 1px solid #777;
+}
+.heardTop .topRight .topUser{
+	line-height: 60px;
+	width: 100px;
+	text-align: center;
+	font-size: 14px;
+	float: right;
+	margin-right: 50px;
+	position: relative;
+	cursor: pointer;
+}
+.heardTop .topRight .topUser .userName{
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+  	text-overflow: ellipsis;
+  	line-height: 60px;
+}
+.heardTop .topRight .topUser i{
+	display: block;
+	position: absolute;
+	top: 22px;
+	right: 7px;
+	font-size: 12px;
+	font-weight: normal;
+	transition: all linear .5s;
+	-webkit-transition: all linear .5s;
+	-moz-transition: all linear .5s;
+}
+.heardTop .topRight .topUser .userOption{
+	display: none;
+	width: 100px;
+	text-align: center;
+	overflow: hidden;
+	position: absolute;
+}
+.heardTop .topRight .topUser .userOption a{
+	display: block;
+	color: #000;
+	width: 100%;
+	line-height: 35px;
+	background-color: #EEEEEE;
+}
+.heardTop .topRight .topUser .userOption a:hover{
+	background-color: #c3c5c6;
+}
+.heardTop .topRight .topUser:hover .userOption {
+	display: block;
+	animation: fadeIn linear .8s;
+	-webkit-animation: fadeIn linear .8s;
+	-moz-animation: fadeIn linear .8s;
+}
+.heardTop .topRight .topUser:hover {
+	background-color: #e9e9e9;
+	transition: all linear .8s;
+	-webkit-transition: all linear .8s;
+	-moz-transition: all linear .8s;
+}
+.heardTop .topRight .topUser:hover i{
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-moz-transition: all linear .5s;
+	-webkit-transition: all linear .5s;
+	transition: all linear .5s;
+}
+.centerContent{
+	width: 100%;
+	height: 100%;
+}
+.centerLeft{
+	width: 160px;
+	height: 100%;
+	border-right: 1px solid #777;
+	float: left;
+	background-color: #eee;
+}
+.centerLeft > div{
+	line-height: 40px;
+	text-align: center;
+	border-bottom: 1px solid #FFFFFF;
+	cursor: pointer;
+	color: #444444;
+}
+.tab_current{
+	background-color: #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	position: relative;
+}
+.tab_current:before{
+	content: '';
+	height: 100%;
+	width: 1px;
+	background-color: #FFFFFF;
+	position: absolute;
+	right: -2px;
+	top: 0;
+}
+.centerRight{
+	width: calc(100% - 160px);
+	width: -webkit-calc(100% - 160px);
+	width: -moz-calc(100% - 160px);
+	width: -ms-calc(100% - 160px);
+	min-height: 100%;
+	float: left;
+
+}
+.centerItem{
+	width: 27%;
+	height: 250px;
+	margin: 10px 3%;
+	background-color: #93DEFE;
+	border-radius: 12px;
+	overflow: hidden;
+	float: left;
+}
+.likeImg{
+	width: 100%;
+	height: 200px;
+	text-align: center;
+	line-height: 200px;
+	background-color: orange;
+}
+.payCard{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	cursor: pointer;
+	text-align: center;
+	font-size: 16px;
+	font-family: '宋体';
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e9e9e9+0,e9e9e9+0,ffffd7+0,728e7f+11,b9e6e8+38,b9e6e8+61,b9e6e8+80,8e80a2+100 */
+	background: #e9e9e9; /* Old browsers */
+	background: -moz-linear-gradient(-45deg,  #e9e9e9 0%, #e9e9e9 0%, #ffffd7 0%, #728e7f 11%, #b9e6e8 38%, #b9e6e8 61%, #b9e6e8 80%, #8e80a2 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg,  #e9e9e9 0%,#e9e9e9 0%,#ffffd7 0%,#728e7f 11%,#b9e6e8 38%,#b9e6e8 61%,#b9e6e8 80%,#8e80a2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg,  #e9e9e9 0%,#e9e9e9 0%,#ffffd7 0%,#728e7f 11%,#b9e6e8 38%,#b9e6e8 61%,#b9e6e8 80%,#8e80a2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9e9e9', endColorstr='#8e80a2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	transition: all .6s linear;
+	-webkit-transition: all .6s linear;
+	-moz-transition: all .6s linear;
+}
+.payCard:hover{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8e80a2+0,b9e6e8+20,b9e6e8+39,b9e6e8+62,728e7f+89,ffffd7+100,e9e9e9+100,e9e9e9+100 */
+	background: #8e80a2; /* Old browsers */
+	background: -moz-linear-gradient(-45deg,  #8e80a2 0%, #b9e6e8 20%, #b9e6e8 39%, #b9e6e8 62%, #728e7f 89%, #ffffd7 100%, #e9e9e9 100%, #e9e9e9 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg,  #8e80a2 0%,#b9e6e8 20%,#b9e6e8 39%,#b9e6e8 62%,#728e7f 89%,#ffffd7 100%,#e9e9e9 100%,#e9e9e9 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg,  #8e80a2 0%,#b9e6e8 20%,#b9e6e8 39%,#b9e6e8 62%,#728e7f 89%,#ffffd7 100%,#e9e9e9 100%,#e9e9e9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8e80a2', endColorstr='#e9e9e9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	transition: all .6s linear;
+	-webkit-transition: all .6s linear;
+	-moz-transition: all .6s linear;
+}

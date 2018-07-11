@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>物联网首页</title>
+		<link href="../css/home.css" rel="stylesheet" type="text/css" />
+		<link href="../css/animate.css" rel="stylesheet" type="text/css" />
+		<link href="../css/iconfont.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script src="../js/vue-resource.js"></script>
+	</head>
+	
+	<body>
+		<div id="homeContent" class="homeContent">
+			<div class="heardTop">
+				<div class="topLeft">物联网系统</div>
+				<div class="topRight">
+					<div class="topUser">
+						<div class="userName">{{ this.login_name }}</div>
+						<i class="icon iconfont icon-kongup"></i>
+						<div class="userOption">
+							<a @click="exitLogin()" v-if="login_name != ''">退出登陆</a>
+							<a href="../admin/index.html" v-if="login_name != '' && user_type == '1'">管理后台</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="centerContent">
+				<div class="centerLeft">
+					<div :class="{tab_current:tabCurrent[0]}" @click="tabSwitch(0,'http://www.baidu.com')">门禁</div>
+					<div :class="{tab_current:tabCurrent[1]}" @click="tabSwitch(1,'http://www.baidu.com')">停车场</div>
+				</div>
+				<div class="centerRight">
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+					<div class="centerItem">
+						<div class="likeImg">门禁1</div>
+						<div class="payCard">刷卡</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+			var vm = new Vue({
+				el: '#homeContent',
+				data: {
+					login_name: '',
+					user_type: '',
+					tabCurrent: [true,false],
+					list: ''
+				},
+				methods: {
+					sessionInfo () {
+						var name = sessionStorage.getItem('login_name');
+						var type = sessionStorage.getItem('user_type')
+						this.login_name = name
+						this.user_type = type
+					},
+					getInfo () {
+						this.$http.get('').then( (res) => {
+							console.log(res);
+						})
+					},
+					exitLogin () {
+						sessionStorage.clear()
+						window.location.reload()
+					},
+					tabSwitch (current, url) {
+						this.tabCurrent = [false,false]
+						this.tabCurrent[current] = true
+						this.$http.get(url).then( (res) => {
+							console.log(res)
+						})
+					}
+				},
+				created: function () {
+					this.sessionInfo()
+					if (this.login_name == '' || this.login_name == null) {
+						window.location.href = '../index.html'
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

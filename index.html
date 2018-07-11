@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<title>物联网用户登陆</title>
+		<link href="css/login.css" rel="stylesheet" type="text/css" />
+		<link href="css/animate.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script src="js/vue-resource.js"></script>
+	</head>
+
+	<body>
+		<div class="login_box" id="loginContent">
+			<div class="login_l_img"><img src="img/login-img.png" /></div>
+			<div class="login">
+				<div class="login_logo">
+					<a href="#"><img src="img/login_logo.png" /></a>
+				</div>
+				<div class="login_name">
+					<p>物联网系统</p>
+				</div>
+				<form method="post">
+					<input name="username" type="text" v-model="userName" placeholder="用户名">
+					<input name="password" type="password" v-model="passWord" placeholder="密码" />
+					<input value="登录" style="width:100%;" type="button" @click="submit()" >
+				</form>
+				<div class="register">还没有账号？<a href="register.html">点击注册</a></div>
+			</div>
+			<div class="copyright">万科科技公司 版权所有©2016-2018 技术支持电话：000-00000000</div>
+			<transition name="tip" mode="out-in">
+				<div class="myTip" v-show="tipBar" v-text="tipContent"></div>
+			</transition>			
+		</div>
+		
+		<script>
+			var vm = new Vue({
+				el: '#loginContent',
+				data: {
+					userName: '',
+					passWord: '',
+					tipBar: false,
+					tipContent: ''
+				},
+				methods: {
+					submit () {
+						if (this.userName == '') {
+							this.tipBar = true
+							this.tipContent = '请先输入用户名'
+							setTimeout(() => {
+								this.tipBar = false
+							},3500)
+							return false
+						} else if ( this.passWord == '') {
+							this.tipBar = true
+							this.tipContent = '请输入密码'
+							setTimeout(() => {
+								this.tipBar = false
+							},2000)
+							return false
+						} else {
+//							this.$http.post('/index.html',{
+//								login_name: this.userName,
+//								password: this.passWord
+//							},{
+//								emulateJSON:true
+//							}).then( (res) => {
+//								console.log(res)
+//							})
+							sessionStorage.setItem('login_name', this.userName);
+							sessionStorage.setItem('user_type', 0);
+							window.location.href = 'home/index.html'
+						}
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

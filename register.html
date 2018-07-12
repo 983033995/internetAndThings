@@ -66,7 +66,8 @@
 					tipBar: false,
 					tipContent: '',
 					proval: [false,false,false],
-					isOk: false
+					isOk: false,
+					domain: 'http://172.20.10.7:8001'
 				},
 				methods: {
 					//用户名规范验证
@@ -114,14 +115,30 @@
 					},
 					register () {
 						if (this.proval[0] == true && this.proval[1] == true && this.proval[2] == true ) {
-							this.$http.post('/index.html',{
-								login_name: this.userName,
-								user_name: this.userName,
+							let user = {
+								loginName: this.userName,
+								userName: this.userName,
 								password: this.passWord
-							},{
+							}
+							let jsonUser = JSON.stringify(user)
+							this.$http.post(this.domain+'/userRegister',jsonUser,{
 								emulateJSON:true
 							}).then( (res) => {
-								console.log(res)
+								const data = res.body
+								console.log(data)
+								if (data.code == 1) {
+									this.tipBar = true
+									this.tipContent = data.resultModel
+									setTimeout(() => {
+										this.tipBar = false
+									},3500)
+								}else{
+									this.tipBar = true
+									this.tipContent = data.resultModel
+									setTimeout(() => {
+										window.location.href = './index.html'
+									},2000)
+								}
 							})
 						} else {
 							

@@ -10,38 +10,193 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/H-ui.min.css">
 		<link href="../css/animate.css" rel="stylesheet" type="text/css" />
 		<link href="../css/iconfont.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="../js/vue.js"></script>
 		<script src="../js/vue-resource.js"></script>
   </head>
   <body>
-    <div id="homeContent" class="homeContent">
+    <div id="adminContent" class="homeContent">
       <div class="heardTop">
         <div class="topLeft">物联网后台管理</div>
         <div class="topRight">
           <div class="topUser">
-            <div class="userName">{{ this.login_name }}</div>
+            <div class="userName">{{this.loginName}}</div>
             <i class="icon iconfont icon-kongup"></i>
             <div class="userOption">
-              <a @click="exitLogin()" v-if="login_name != ''">退出登陆</a>
-              <a href="../admin/index.html" v-if="login_name != '' && user_type == '1'">管理后台</a>
+              <a @click="exitLogin()" v-if="loginName != ''">退出登陆</a>
+              <a href="../home/index.html">返回首页</a>
             </div>
           </div>
         </div>
       </div>
       <div class="centerContent">
         <div class="centerLeft">
-          <div>用户列表</div>
+          <div class="tab_current">用户列表</div>
         </div>
         <div class="centerRight">
-
+            <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>登录名</th>
+                <th>用户类型</th>
+                <th>创建时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>admin</td>
+                <td>admin</td>
+                <td>管理员</td>
+                <td>2017-07-11</td>
+                <td>
+                  <a class="icon iconfont icon-jinyong" @click="handleStatus('id')"></a>
+                  <a title="权限管理" class="icon iconfont icon-quanxian2" @click="handlePower('id')"></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>    
+      <transition name="pop" mode="out-in">
+        <div class="popHandle" v-show="pop">
+          <div class="popMask" @click="closePop()"></div>
+          <user-Power :handlename="loginName" @close="close"></user-Power>
+        </div>
+      </transition>
+      <transition name="startPop">
+        <div class="comitPop" v-show="startStatus">
+          <div class="comitContent">
+            确认要禁用admin吗?
+          </div>
+          <button>确认</button>
+          <button>取消</button>
+        </div>
+      </transition>
+    </div>
     
     <script>
-    
+      Vue.component("userPower",{
+				data: function(){
+					return {
+						
+					}
+        },
+        props: {
+          handlename: String
+        },
+        template: '<div class="powerContent">'+
+          '<div class="topBar"><span v-html="handlename"></span>&nbsp;&nbsp;的权限配置<div @click="close()" class="icon iconfont icon-guanbi"></div></div>'+
+          '<div class="doorContent">'+
+          '<div class="doorItem">'+
+          '<div class="check-box">'+
+          '<input type="checkbox" id="checkbox-1" value="0" name="type[]">'+
+          '<label for="checkbox-1">门禁一</label>'+
+          '</div>'+
+          '<div class="check-box">'+
+          '<input type="checkbox" id="checkbox-2" value="0" name="type[]">'+
+          '<label for="checkbox-2">门禁一</label>'+
+          '</div>'+
+          '<div class="check-box">'+
+          '<input type="checkbox" id="checkbox-3" value="0" name="type[]">'+
+          '<label for="checkbox-3">门禁一</label>'+
+          '</div>'+
+          '<div class="check-box">'+
+          '<input type="checkbox" id="checkbox-4" value="0" name="type[]">'+
+          '<label for="checkbox-4">门禁一</label>'+
+          '</div>'+
+          '</div>'+
+          '<div class="carDoorItem">'+
+          '<div class="check-box">'+
+          '<input type="checkbox" id="carbox-1" value="0" name="type[]">'+
+          '<label for="carbox-1">停车场1</label>'+
+          '</div>'+          
+          '</div>'+
+          '</div>'+
+          '<div class="powerFoot"><div class="btn btn-primary radius">提交</div></div>'+
+          '</div>',
+				mounted: function(){
+					this.$nextTick(function(){
+					});
+				},
+				methods: {
+					handleSbmit (id) {
+						this.$http.post("",{id:id}).then((res) => {
+							     console.log();
+						})
+          },
+          close () {
+            this.$emit('close')
+          }
+				},
+			})
+      var vm = new Vue({
+        el: '#adminContent',
+        data: {
+          loginName: '',//登陆名
+          userType: '',//用户类型
+          userId: '',//用户id
+					userCreated: '',//创建时间
+					userName: '',//用户名
+          list: '',//用户列表信息
+          pop: false,//用户权限弹框
+          startStatus: false,//禁/起用用户弹框
+          handleUser: '',//
+          domain: 'http://172.20.10.7:8001'
+        },
+        methods: {
+					sessionInfo () {
+						let name = sessionStorage.getItem('loginName')
+						let type = sessionStorage.getItem('userType')
+						let id = sessionStorage.getItem('id')
+						let createTime = sessionStorage.getItem('createTime')
+						let userName = sessionStorage.getItem('userName')
+						this.loginName = name
+						this.userType = type
+						this.userCreated = createTime
+						this.userName = userName
+						this.userId = id
+					},
+					getInfo () {
+						this.$http.get(this.domain+'/userInfo').then( (res) => {
+							console.log(res);
+						})
+					},
+					exitLogin () {
+						sessionStorage.clear()
+						window.location.reload()
+          },
+          handlePower (id) {
+            // this.$http.post("",{id:id}).then((res) => {
+						// 	     console.log();
+            // })
+            this.pop = true
+          },
+          closePop () {
+            this.pop = false
+          },
+          close () {
+            this.pop = false
+          },
+          handleStatus (id) {
+
+          }
+				},
+				created: function () {
+					this.sessionInfo()
+					if (this.loginName == '' || this.loginName == null) {
+						window.location.href = '../index.html'
+					}
+				},
+				mounted () {
+					this.getInfo()
+				}
+      })
     </script>
   </body>
 </html>

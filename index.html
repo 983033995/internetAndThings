@@ -42,37 +42,45 @@
 					userName: '',
 					passWord: '',
 					tipBar: false,
-					tipContent: ''
+					tipContent: '',
+					domain: 'http://172.20.10.7:8001'
 				},
 				methods: {
 					submit () {
 						if (this.userName == '') {
-							this.tipBar = true
-							this.tipContent = '请先输入用户名'
-							setTimeout(() => {
-								this.tipBar = false
-							},3500)
+							this.proving('请先输入用户名')
 							return false
 						} else if ( this.passWord == '') {
-							this.tipBar = true
-							this.tipContent = '请输入密码'
-							setTimeout(() => {
-								this.tipBar = false
-							},2000)
+							this.proving('请输入密码')
 							return false
 						} else {
-//							this.$http.post('/index.html',{
-//								login_name: this.userName,
-//								password: this.passWord
-//							},{
-//								emulateJSON:true
-//							}).then( (res) => {
-//								console.log(res)
-//							})
-							sessionStorage.setItem('login_name', this.userName);
-							sessionStorage.setItem('user_type', 1);
-							window.location.href = 'home/index.html'
+							let user = {
+								loginName: this.userName,
+								password: this.passWord
+							}
+							let newUser = JSON.stringify(user)
+							this.$http.post(this.domain+'/userLogin',newUser).then( (res) => {
+								const data = res.body
+								if (data.code == 1) {
+									this.proving(data.resultModel)
+								}else{
+									let userInfo = data.resultModel
+									sessionStorage.setItem('loginName', userInfo.loginName);
+									sessionStorage.setItem('userType', userInfo.userType);
+									sessionStorage.setItem('userName', userInfo.userName);
+									sessionStorage.setItem('id', userInfo.id);
+									sessionStorage.setItem('createTime', userInfo.createTime);
+									window.location.href = 'home/index.html'
+								}
+							})
 						}
+					},
+					proving (tipContent) {
+						this.tipBar = true
+						this.tipContent = tipContent
+						setTimeout(() => {
+							this.tipBar = false
+						},3500)
 					}
 				}
 			})

@@ -16,44 +16,24 @@
 				<div class="topLeft">物联网系统</div>
 				<div class="topRight">
 					<div class="topUser">
-						<div class="userName">{{ this.login_name }}</div>
+						<div class="userName">{{ this.loginName }}</div>
 						<i class="icon iconfont icon-kongup"></i>
 						<div class="userOption">
-							<a @click="exitLogin()" v-if="login_name != ''">退出登陆</a>
-							<a href="../admin/index.html" v-if="login_name != '' && user_type == '1'">管理后台</a>
+							<a @click="exitLogin()" v-if="loginName != ''">退出登陆</a>
+							<a href="../admin/index.html" v-if="loginName != '' && userType == '1'">管理后台</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="centerContent">
 				<div class="centerLeft">
-					<div :class="{tab_current:tabCurrent[0]}" @click="tabSwitch(0,'http://www.baidu.com')">门禁</div>
-					<div :class="{tab_current:tabCurrent[1]}" @click="tabSwitch(1,'http://www.baidu.com')">停车场</div>
+					<div :class="{tab_current:tabCurrent[0]}" @click="tabSwitch(0,domain+'/info')">门禁</div>
+					<div :class="{tab_current:tabCurrent[1]}" @click="tabSwitch(1,domain+'/info')">停车场</div>
 				</div>
 				<div class="centerRight">
 					<div class="centerItem">
 						<div class="likeImg">门禁1</div>
 						<div class="payCard" @click="payCard('1')">刷卡</div>
-					</div>
-					<div class="centerItem">
-						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
-					</div>
-					<div class="centerItem">
-						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
-					</div>
-					<div class="centerItem">
-						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
-					</div>
-					<div class="centerItem">
-						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
-					</div>
-					<div class="centerItem">
-						<div class="likeImg">门禁1</div>
-						<div class="payCard">刷卡</div>
 					</div>
 				</div>
 			</div>
@@ -63,27 +43,35 @@
 			var vm = new Vue({
 				el: '#homeContent',
 				data: {
-					login_name: '',
-					user_type: '',
+					loginName: '',
+					userType: '',
+					userId: '',
+					userCreated: '',
+					userName: '',
 					tabCurrent: [true,false],
-					list: ''
+					list: '',
+					domain: 'http://172.20.10.7:8001'
 				},
 				methods: {
+					//通过缓存信息获取用户的信息
 					sessionInfo () {
-						var name = sessionStorage.getItem('login_name');
-						var type = sessionStorage.getItem('user_type')
-						this.login_name = name
-						this.user_type = type
+						let name = sessionStorage.getItem('loginName')
+						let type = sessionStorage.getItem('userType')
+						let id = sessionStorage.getItem('id')
+						let createTime = sessionStorage.getItem('createTime')
+						let userName = sessionStorage.getItem('userName')
+						this.loginName = name
+						this.userType = type
+						this.userCreated = createTime
+						this.userName = userName
+						this.userId = id
 					},
-					getInfo () {
-						this.$http.get('').then( (res) => {
-							console.log(res);
-						})
-					},
+					//退出登陆
 					exitLogin () {
 						sessionStorage.clear()
 						window.location.reload()
 					},
+					//门禁及停车场切换
 					tabSwitch (current, url) {
 						this.tabCurrent = [false,false]
 						this.tabCurrent[current] = true
@@ -91,25 +79,27 @@
 							console.log(res)
 						})
 					},
-					payCard (id) {
-						if (this.tabCurrent[0] == true) {
+					payCard (doorId) {
+						if (this.tabCurrent[0] == true) {//门禁
 							var postUrl = ''
-						} else {
+						} else {//停车场
 							var postUrl = ''
 						}
-						this.$http.post(postUrl,{login_name:this.login_name,id:id}).then( (res) => {
+						let info = {userId:this.id,doorId:doorId}
+						let jsonInfo = JSON.stringify(info)
+						this.$http.post(postUrl,jsonInfo).then( (res) => {
 							console.log();
 						})
 					}
 				},
 				created: function () {
 					this.sessionInfo()
-					if (this.login_name == '' || this.login_name == null) {
+					if (this.loginName == '' || this.loginName == null) {
 						window.location.href = '../index.html'
 					}
 				},
 				mounted () {
-					this.getInfo()
+					this.tabSwitch(0,this.domain+'/info')
 				}
 			})
 		</script>
